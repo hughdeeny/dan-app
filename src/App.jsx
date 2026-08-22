@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
 const STORAGE_KEY = 'dan-fuel-log'
+const CAPACITY_KEY = 'dan-tank-capacity'
 const SLOT_COUNT = 35
 const DAYS = [
   'Monday',
@@ -92,11 +93,22 @@ function weekBalances(week) {
   )
 }
 
+function loadCapacity() {
+  try {
+    return localStorage.getItem(CAPACITY_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
 function App() {
   const [week, setWeek] = useState(loadWeek)
   const [day, setDay] = useState('Monday')
   const [confirmingClear, setConfirmingClear] = useState(false)
+  const [capacity, setCapacity] = useState(loadCapacity)
+  const [capacityDraft, setCapacityDraft] = useState('')
   const sheet = week[day]
+  const needsCapacity = capacity.trim() === ''
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(week))
@@ -139,6 +151,20 @@ function App() {
     setConfirmingClear(false)
   }
 
+  function saveCapacity(event) {
+    event.preventDefault()
+    const value = capacityDraft.trim()
+    if (!value || parseLitres(value) <= 0) return
+
+    localStorage.setItem(CAPACITY_KEY, value)
+    setCapacity(value)
+    setWeek((current) =>
+      Object.fromEntries(
+        DAYS.map((name) => [name, { ...current[name], start: value }]),
+      ),
+    )
+  }
+
   return (
     <div className="app">
       <header className="masthead">
@@ -163,14 +189,14 @@ function App() {
               aria-label={`${day} starting balance`}
             />
           </label>
-
-          <p className="balance running" aria-live="polite">
-            <span>Running balance</span>
-            <strong className={hasStart && remaining < 0 ? 'low' : undefined}>
-              {hasStart ? `${formatLitres(remaining)} L` : '—'}
-            </strong>
-          </p>
         </div>
+
+        <p className="balance running" aria-live="polite">
+          <span>Running balance</span>
+          <strong className={hasStart && remaining < 0 ? 'low' : undefined}>
+            {hasStart ? `${formatLitres(remaining)} L` : '—'}
+          </strong>
+        </p>
 
         <nav className="days" aria-label="Days of the week">
           {DAYS.map((name) => (
@@ -229,6 +255,38 @@ function App() {
           Clear {day}
         </button>
       </main>
+
+      {needsCapacity ? (
+        <div className="dialog-backdrop">
+          <form
+            className="dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="capacity-title"
+            onSubmit={saveCapacity}
+          >
+            <h2 id="capacity-title">Enter tank capacity in litres</h2>
+            <input
+              className="dialog-input"
+              type="number"
+              inputMode="decimal"
+              step="any"
+              min="0"
+              value={capacityDraft}
+              onChange={(event) => setCapacityDraft(event.target.value)}
+              placeholder="Litres"
+              aria-label="Tank capacity in litres"
+              autoFocus
+              required
+            />
+            <div className="dialog-actions">
+              <button type="submit" className="dialog-confirm">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : null}
 
       {confirmingClear ? (
         <div

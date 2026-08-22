@@ -85,6 +85,15 @@
   outline: none;
 }
 
+.running {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 16px;
+  border-color: var(--ink);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
 .running strong {
   display: block;
   padding-top: 6px;
@@ -282,6 +291,29 @@
 .dialog p {
   margin: 0 0 20px;
   color: var(--ink-soft);
+}
+
+.dialog-input {
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 800;
+  -moz-appearance: textfield;
+}
+
+.dialog-input:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+.dialog-input::-webkit-outer-spin-button,
+.dialog-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .dialog-actions {
