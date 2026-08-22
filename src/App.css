@@ -60,8 +60,8 @@
 }
 
 .balance span {
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 16px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--ink-soft);
