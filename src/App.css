@@ -54,7 +54,7 @@
   display: grid;
   gap: 6px;
   margin: 0;
-  padding: 10px 12px;
+  padding: 14px 16px;
   border: 1px solid var(--line);
   background: var(--paper);
 }
@@ -69,16 +69,22 @@
 
 .balance input {
   width: 100%;
-  padding: 6px 0 0;
+  padding: 8px 0 0;
   border: 0;
   border-top: 1px solid var(--line);
   border-radius: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 800;
   line-height: 1.2;
   -moz-appearance: textfield;
+}
+
+.balance input::placeholder {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
 }
 
 .balance input:focus {
@@ -96,10 +102,10 @@
 
 .running strong {
   display: block;
-  padding-top: 6px;
+  padding-top: 8px;
   border-top: 1px solid var(--line);
   color: #d32f2f;
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 800;
   line-height: 1.2;
 }

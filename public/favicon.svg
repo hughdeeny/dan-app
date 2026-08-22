@@ -1,4 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#f4efe4"/>
-  <text x="16" y="23" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#b4532a">D</text>
+  <rect width="32" height="32" rx="6" fill="#bd34bb"/>
+  <text
+    x="16"
+    y="22"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="16"
+    font-weight="800"
+    fill="#ffffff"
+  >T</text>
 </svg>
