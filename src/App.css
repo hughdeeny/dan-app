@@ -1,22 +1,31 @@
 .app {
   min-height: 100svh;
   display: grid;
-  place-items: start center;
-  padding: 28px 16px 56px;
+  justify-items: center;
+  align-content: start;
+  padding: 0 0 56px;
 }
 
 .shell {
   width: min(720px, 100%);
+  padding: 24px 16px 0;
 }
 
 .masthead {
+  width: 100%;
+  margin-bottom: 0;
+  padding: 20px 16px;
+  background: var(--brand);
+  color: #fff;
+}
+
+.masthead-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 3px solid var(--brand);
+  width: min(720px, 100%);
+  margin: 0 auto;
 }
 
 .title {
@@ -28,7 +37,7 @@
 
 .date {
   margin: 0;
-  color: var(--ink);
+  color: #fff;
   font-size: 15px;
   font-weight: 700;
 }
@@ -42,15 +51,15 @@
 
 .balance {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   margin: 0;
-  padding: 14px 16px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
   background: var(--paper);
 }
 
 .balance span {
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
@@ -59,13 +68,13 @@
 
 .balance input {
   width: 100%;
-  padding: 10px 0 0;
+  padding: 6px 0 0;
   border: 0;
   border-top: 1px solid var(--line);
   border-radius: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.2;
   -moz-appearance: textfield;
@@ -87,9 +96,9 @@
 
 .running strong {
   display: block;
-  padding-top: 10px;
+  padding-top: 6px;
   border-top: 1px solid var(--line);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.2;
 }
@@ -158,7 +167,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   border: 1px solid var(--ink);
   background: var(--paper);
 }
@@ -166,18 +175,13 @@
 .slot {
   position: relative;
   display: grid;
-  grid-template-columns: 28px 1fr;
+  grid-template-columns: 48px 1fr;
   align-items: stretch;
   min-width: 0;
-  border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
-.slot:nth-child(5n) {
-  border-right: 0;
-}
-
-.slot:nth-last-child(-n + 5) {
+.slot:last-child {
   border-bottom: 0;
 }
 
@@ -215,13 +219,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.slot:nth-child(5n) .slot-menu,
-.slot:nth-last-child(-n + 5) .slot-menu {
-  left: auto;
-  right: 0;
-}
-
-.slot:nth-last-child(-n + 5) .slot-menu {
+.slot:nth-last-child(-n + 2) .slot-menu {
   top: auto;
   bottom: calc(100% - 1px);
 }
@@ -257,7 +255,8 @@
   border: 0;
   background: transparent;
   color: var(--ink);
-  text-align: center;
+  text-align: left;
+  padding-left: 12px;
   font-weight: 700;
   -moz-appearance: textfield;
 }
@@ -350,44 +349,3 @@
   background: var(--brand-deep);
 }
 
-@media (max-width: 520px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .slot:nth-child(5n) {
-    border-right: 1px solid var(--line);
-  }
-
-  .slot:nth-child(2n) {
-    border-right: 0;
-  }
-
-  .slot:nth-last-child(-n + 5) {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .slot:last-child {
-    border-bottom: 0;
-  }
-
-  .slot:nth-child(5n) .slot-menu {
-    left: 0;
-    right: auto;
-  }
-
-  .slot:nth-child(2n) .slot-menu {
-    left: auto;
-    right: 0;
-  }
-
-  .slot:nth-last-child(-n + 5) .slot-menu {
-    top: calc(100% - 1px);
-    bottom: auto;
-  }
-
-  .slot:nth-last-child(-n + 2) .slot-menu {
-    top: auto;
-    bottom: calc(100% - 1px);
-  }
-}

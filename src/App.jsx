@@ -163,12 +163,14 @@ function App() {
 
   return (
     <div className="app">
-      <main className="shell">
-        <header className="masthead">
-          <h1 className="title">Fuel log</h1>
+      <header className="masthead">
+        <div className="masthead-inner">
+          <h1 className="title">Running Tank Tally</h1>
           <p className="date">{day}</p>
-        </header>
+        </div>
+      </header>
 
+      <main className="shell">
         <div className="balances">
           <label className={isMonday ? 'balance' : 'balance carried'}>
             <span>Starting balance</span>
