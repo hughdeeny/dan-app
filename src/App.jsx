@@ -99,7 +99,6 @@ function App() {
   const [week, setWeek] = useState(loadWeek)
   const [day, setDay] = useState('Monday')
   const [confirmingClear, setConfirmingClear] = useState(false)
-  const [openSlot, setOpenSlot] = useState(null)
   const sheet = week[day]
   const dayIndex = DAYS.indexOf(day)
   const previousDay = dayIndex > 0 ? DAYS[dayIndex - 1] : null
@@ -111,26 +110,12 @@ function App() {
 
   useEffect(() => {
     function onKeyDown(event) {
-      if (event.key !== 'Escape') return
-      setConfirmingClear(false)
-      setOpenSlot(null)
+      if (event.key === 'Escape') setConfirmingClear(false)
     }
 
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
-
-  useEffect(() => {
-    if (openSlot === null) return undefined
-
-    function onPointerDown(event) {
-      if (event.target.closest(`[data-slot="${openSlot + 1}"]`)) return
-      setOpenSlot(null)
-    }
-
-    document.addEventListener('pointerdown', onPointerDown)
-    return () => document.removeEventListener('pointerdown', onPointerDown)
-  }, [openSlot])
 
   const balances = useMemo(() => weekBalances(week), [week])
   const { start, used, refilled, remaining } = balances[day]
@@ -158,7 +143,6 @@ function App() {
   function clearSlots() {
     updateDay(day, { slots: emptyDay().slots })
     setConfirmingClear(false)
-    setOpenSlot(null)
   }
 
   return (
@@ -222,7 +206,6 @@ function App() {
               onClick={() => {
                 setDay(name)
                 setConfirmingClear(false)
-                setOpenSlot(null)
               }}
               aria-current={name === day ? 'page' : undefined}
             >
@@ -233,7 +216,7 @@ function App() {
 
         <section className="summary">
           <p>
-            <span>Used</span>
+            <span>Total litres delivered</span>
             <strong>{formatLitres(used)} L</strong>
           </p>
           <p>
@@ -243,24 +226,19 @@ function App() {
         </section>
 
         <section className="sheet" aria-label={`${day} fuel slots`}>
-          <p className="sheet-label">
-            {day} · 35 slots · tap a number to mark refill
-          </p>
+          <p className="sheet-label">{day} · 35 slots</p>
           <div className="grid">
             {sheet.slots.map((slot, index) => (
               <Slot
                 key={index}
                 number={index + 1}
                 slot={slot}
-                menuOpen={openSlot === index}
-                onToggleMenu={() =>
-                  setOpenSlot((current) => (current === index ? null : index))
-                }
                 onChangeValue={(value) => updateSlot(index, { value })}
-                onChangeKind={(kind) => {
-                  updateSlot(index, { kind })
-                  setOpenSlot(null)
-                }}
+                onToggleRefill={() =>
+                  updateSlot(index, {
+                    kind: slot.kind === 'refill' ? 'use' : 'refill',
+                  })
+                }
               />
             ))}
           </div>
@@ -271,7 +249,6 @@ function App() {
           className="clear"
           onClick={() => {
             setConfirmingClear(true)
-            setOpenSlot(null)
           }}
         >
           Clear {day}
@@ -318,51 +295,12 @@ function App() {
   )
 }
 
-function Slot({
-  number,
-  slot,
-  menuOpen,
-  onToggleMenu,
-  onChangeValue,
-  onChangeKind,
-}) {
+function Slot({ number, slot, onChangeValue, onToggleRefill }) {
   const isRefill = slot.kind === 'refill'
 
   return (
-    <div
-      className={isRefill ? 'slot refill' : 'slot'}
-      data-slot={number}
-    >
-      <button
-        type="button"
-        className="slot-num"
-        aria-expanded={menuOpen}
-        aria-haspopup="menu"
-        aria-label={`Slot ${number} type, ${isRefill ? 'refill' : 'used'}`}
-        onClick={onToggleMenu}
-      >
-        {number}
-      </button>
-      {menuOpen ? (
-        <div className="slot-menu" role="menu">
-          <button
-            type="button"
-            role="menuitem"
-            className={isRefill ? undefined : 'selected'}
-            onClick={() => onChangeKind('use')}
-          >
-            Used
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            className={isRefill ? 'selected' : undefined}
-            onClick={() => onChangeKind('refill')}
-          >
-            Refill
-          </button>
-        </div>
-      ) : null}
+    <div className={isRefill ? 'slot refill' : 'slot'}>
+      <span className="slot-num">{number}</span>
       <input
         type="number"
         inputMode="decimal"
@@ -371,9 +309,17 @@ function Slot({
         value={slot.value}
         onChange={(event) => onChangeValue(event.target.value)}
         aria-label={
-          isRefill ? `Slot ${number} refill` : `Slot ${number} used`
+          isRefill ? `Slot ${number} refill` : `Slot ${number} delivered`
         }
       />
+      <button
+        type="button"
+        className={isRefill ? 'slot-refill on' : 'slot-refill'}
+        aria-pressed={isRefill}
+        onClick={onToggleRefill}
+      >
+        Refill
+      </button>
     </div>
   )
 }
