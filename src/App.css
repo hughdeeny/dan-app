@@ -19,10 +19,11 @@
   border-bottom: 3px solid var(--brand);
 }
 
-.logo {
-  display: block;
-  width: min(220px, 58vw);
-  height: auto;
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .date {
@@ -32,31 +33,17 @@
   font-weight: 700;
 }
 
-.hero {
-  margin: 20px 0 0;
-  border: 1px solid var(--ink);
-  overflow: hidden;
-  background: #111;
-}
-
-.hero img {
-  display: block;
-  width: 100%;
-  height: 96px;
-  object-fit: cover;
-  object-position: 50% 55%;
-}
-
-@media (max-width: 520px) {
-  .hero img {
-    height: 72px;
-  }
+.balances {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .balance {
   display: grid;
   gap: 8px;
-  margin-bottom: 16px;
+  margin: 0;
   padding: 14px 16px;
   border: 1px solid var(--line);
   background: var(--paper);
@@ -98,6 +85,19 @@
   cursor: default;
 }
 
+.running strong {
+  display: block;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.running .low {
+  color: var(--low);
+}
+
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -122,7 +122,7 @@
 
 .summary {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 16px;
 }
@@ -148,10 +148,6 @@
   margin-top: 4px;
   font-size: 22px;
   font-weight: 800;
-}
-
-.summary .low {
-  color: var(--low);
 }
 
 .sheet-label {

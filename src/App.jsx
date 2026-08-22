@@ -165,42 +165,51 @@ function App() {
     <div className="app">
       <main className="shell">
         <header className="masthead">
-          <img className="logo" src="/elgas.png" alt="Elgas" />
+          <h1 className="title">Fuel log</h1>
           <p className="date">{day}</p>
         </header>
 
-        <label className={isMonday ? 'balance' : 'balance carried'}>
-          <span>Starting balance</span>
-          {isMonday ? (
-            <input
-              type="number"
-              inputMode="decimal"
-              step="any"
-              min="0"
-              value={week.Monday.start}
-              onChange={(event) => setWeekStart(event.target.value)}
-              placeholder="Litres in tank"
-              aria-label="Monday starting balance"
-            />
-          ) : (
-            <input
-              value={hasStart ? formatLitres(start) : ''}
-              placeholder={
-                previousDay ? `Carried from ${previousDay}` : 'Litres in tank'
-              }
-              aria-label={`${day} starting balance, carried from ${previousDay}`}
-              readOnly
-              tabIndex={-1}
-            />
-          )}
-          {!isMonday ? (
-            <small>
-              {hasStart
-                ? `Carried from ${previousDay}`
-                : `Enter Monday’s starting balance first`}
-            </small>
-          ) : null}
-        </label>
+        <div className="balances">
+          <label className={isMonday ? 'balance' : 'balance carried'}>
+            <span>Starting balance</span>
+            {isMonday ? (
+              <input
+                type="number"
+                inputMode="decimal"
+                step="any"
+                min="0"
+                value={week.Monday.start}
+                onChange={(event) => setWeekStart(event.target.value)}
+                placeholder="Litres in tank"
+                aria-label="Monday starting balance"
+              />
+            ) : (
+              <input
+                value={hasStart ? formatLitres(start) : ''}
+                placeholder={
+                  previousDay ? `Carried from ${previousDay}` : 'Litres in tank'
+                }
+                aria-label={`${day} starting balance, carried from ${previousDay}`}
+                readOnly
+                tabIndex={-1}
+              />
+            )}
+            {!isMonday ? (
+              <small>
+                {hasStart
+                  ? `Carried from ${previousDay}`
+                  : `Enter Monday’s starting balance first`}
+              </small>
+            ) : null}
+          </label>
+
+          <p className="balance running" aria-live="polite">
+            <span>Running balance</span>
+            <strong className={hasStart && remaining < 0 ? 'low' : undefined}>
+              {hasStart ? `${formatLitres(remaining)} L` : '—'}
+            </strong>
+          </p>
+        </div>
 
         <nav className="days" aria-label="Days of the week">
           {DAYS.map((name) => (
@@ -220,7 +229,7 @@ function App() {
           ))}
         </nav>
 
-        <section className="summary" aria-live="polite">
+        <section className="summary">
           <p>
             <span>Used</span>
             <strong>{formatLitres(used)} L</strong>
@@ -228,12 +237,6 @@ function App() {
           <p>
             <span>Refilled</span>
             <strong>{formatLitres(refilled)} L</strong>
-          </p>
-          <p>
-            <span>In tank</span>
-            <strong className={hasStart && remaining < 0 ? 'low' : undefined}>
-              {hasStart ? `${formatLitres(remaining)} L` : '—'}
-            </strong>
           </p>
         </section>
 
@@ -271,10 +274,6 @@ function App() {
         >
           Clear {day}
         </button>
-
-        <figure className="hero">
-          <img src="/elgas-truck.png" alt="Elgas tanker" />
-        </figure>
       </main>
 
       {confirmingClear ? (
