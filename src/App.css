@@ -33,7 +33,7 @@
 }
 
 .hero {
-  margin: 0 0 20px;
+  margin: 20px 0 0;
   border: 1px solid var(--ink);
   overflow: hidden;
   background: #111;

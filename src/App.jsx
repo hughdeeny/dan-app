@@ -59,10 +59,6 @@ function loadWeek() {
   }
 }
 
-function todayName() {
-  return DAYS[(new Date().getDay() + 6) % 7]
-}
-
 function parseLitres(value) {
   const amount = Number.parseFloat(value)
   return Number.isFinite(amount) ? amount : 0
@@ -101,7 +97,7 @@ function weekBalances(week) {
 
 function App() {
   const [week, setWeek] = useState(loadWeek)
-  const [day, setDay] = useState(todayName)
+  const [day, setDay] = useState('Monday')
   const [confirmingClear, setConfirmingClear] = useState(false)
   const [openSlot, setOpenSlot] = useState(null)
   const sheet = week[day]
@@ -172,10 +168,6 @@ function App() {
           <img className="logo" src="/elgas.png" alt="Elgas" />
           <p className="date">{day}</p>
         </header>
-
-        <figure className="hero">
-          <img src="/elgas-truck.png" alt="Elgas tanker" />
-        </figure>
 
         <label className={isMonday ? 'balance' : 'balance carried'}>
           <span>Starting balance</span>
@@ -279,6 +271,10 @@ function App() {
         >
           Clear {day}
         </button>
+
+        <figure className="hero">
+          <img src="/elgas-truck.png" alt="Elgas tanker" />
+        </figure>
       </main>
 
       {confirmingClear ? (
