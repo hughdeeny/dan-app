@@ -81,15 +81,12 @@ function slotTotals(slots) {
 }
 
 function weekBalances(week) {
-  const hasStart = week.Monday.start.trim() !== ''
-  let running = hasStart ? parseLitres(week.Monday.start) : null
-
   return Object.fromEntries(
     DAYS.map((name) => {
-      const start = running
+      const hasStart = week[name].start.trim() !== ''
+      const start = hasStart ? parseLitres(week[name].start) : null
       const { used, refilled } = slotTotals(week[name].slots)
       const remaining = start === null ? null : start - used + refilled
-      running = remaining
       return [name, { start, used, refilled, remaining }]
     }),
   )
@@ -100,9 +97,6 @@ function App() {
   const [day, setDay] = useState('Monday')
   const [confirmingClear, setConfirmingClear] = useState(false)
   const sheet = week[day]
-  const dayIndex = DAYS.indexOf(day)
-  const previousDay = dayIndex > 0 ? DAYS[dayIndex - 1] : null
-  const isMonday = day === 'Monday'
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(week))
@@ -128,8 +122,8 @@ function App() {
     }))
   }
 
-  function setWeekStart(value) {
-    updateDay('Monday', { start: value })
+  function setDayStart(value) {
+    updateDay(day, { start: value })
   }
 
   function updateSlot(index, patch) {
@@ -156,37 +150,18 @@ function App() {
 
       <main className="shell">
         <div className="balances">
-          <label className={isMonday ? 'balance' : 'balance carried'}>
+          <label className="balance">
             <span>Starting balance</span>
-            {isMonday ? (
-              <input
-                type="number"
-                inputMode="decimal"
-                step="any"
-                min="0"
-                value={week.Monday.start}
-                onChange={(event) => setWeekStart(event.target.value)}
-                placeholder="Litres in tank"
-                aria-label="Monday starting balance"
-              />
-            ) : (
-              <input
-                value={hasStart ? formatLitres(start) : ''}
-                placeholder={
-                  previousDay ? `Carried from ${previousDay}` : 'Litres in tank'
-                }
-                aria-label={`${day} starting balance, carried from ${previousDay}`}
-                readOnly
-                tabIndex={-1}
-              />
-            )}
-            {!isMonday ? (
-              <small>
-                {hasStart
-                  ? `Carried from ${previousDay}`
-                  : `Enter Monday’s starting balance first`}
-              </small>
-            ) : null}
+            <input
+              type="number"
+              inputMode="decimal"
+              step="any"
+              min="0"
+              value={sheet.start}
+              onChange={(event) => setDayStart(event.target.value)}
+              placeholder="Litres in tank"
+              aria-label={`${day} starting balance`}
+            />
           </label>
 
           <p className="balance running" aria-live="polite">

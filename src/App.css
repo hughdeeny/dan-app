@@ -85,16 +85,6 @@
   outline: none;
 }
 
-.balance small {
-  color: var(--ink-soft);
-  font-size: 13px;
-}
-
-.balance.carried input {
-  color: var(--ink);
-  cursor: default;
-}
-
 .running strong {
   display: block;
   padding-top: 6px;
