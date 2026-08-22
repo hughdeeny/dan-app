@@ -159,7 +159,7 @@ function App() {
               min="0"
               value={sheet.start}
               onChange={(event) => setDayStart(event.target.value)}
-              placeholder="Enter tank capacity in litres here"
+              placeholder="Enter The Tank capacity in litres here..."
               aria-label={`${day} starting balance`}
             />
           </label>
