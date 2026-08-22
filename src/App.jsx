@@ -45,7 +45,7 @@ function loadWeek() {
     if (!raw) return emptyWeek()
 
     const saved = JSON.parse(raw)
-    return Object.fromEntries(
+    const week = Object.fromEntries(
       DAYS.map((day) => {
         const entry = saved[day] ?? emptyDay()
         const slots = Array.from({ length: SLOT_COUNT }, (_, index) =>
@@ -53,6 +53,15 @@ function loadWeek() {
         )
         return [day, { start: String(entry.start ?? ''), slots }]
       }),
+    )
+    const sharedStart =
+      DAYS.map((day) => week[day].start).find((value) => value.trim() !== '') ??
+      ''
+
+    if (!sharedStart) return week
+
+    return Object.fromEntries(
+      DAYS.map((day) => [day, { ...week[day], start: sharedStart }]),
     )
   } catch {
     return emptyWeek()
@@ -122,8 +131,12 @@ function App() {
     }))
   }
 
-  function setDayStart(value) {
-    updateDay(day, { start: value })
+  function setSharedStart(value) {
+    setWeek((current) =>
+      Object.fromEntries(
+        DAYS.map((name) => [name, { ...current[name], start: value }]),
+      ),
+    )
   }
 
   function updateSlot(index, patch) {
@@ -158,9 +171,9 @@ function App() {
               step="any"
               min="0"
               value={sheet.start}
-              onChange={(event) => setDayStart(event.target.value)}
+              onChange={(event) => setSharedStart(event.target.value)}
               placeholder="Enter The Tank capacity in litres here..."
-              aria-label={`${day} starting balance`}
+              aria-label="Starting balance for every day"
             />
           </label>
         </div>
