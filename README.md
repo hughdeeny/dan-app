@@ -1,6 +1,6 @@
 # Dan
 
-A React app built with Vite. Add, complete, and remove tasks — they persist in this browser via `localStorage`.
+A weekly fuel log for tracking tank levels. Enter Monday’s starting balance, then fill 35 numbered slots each day. Tuesday opens with Monday’s leftover, and that carry-over continues through Sunday. Entries stay in this browser via `localStorage`.
 
 ## Scripts
 
