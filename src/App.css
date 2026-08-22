@@ -45,7 +45,7 @@
 
 .balances {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 8px;
   margin-bottom: 16px;
 }
@@ -99,13 +99,10 @@
   display: block;
   padding-top: 6px;
   border-top: 1px solid var(--line);
-  font-size: 22px;
+  color: #d32f2f;
+  font-size: 36px;
   font-weight: 800;
   line-height: 1.2;
-}
-
-.running .low {
-  color: var(--low);
 }
 
 .days {
