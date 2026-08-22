@@ -1,0 +1,54 @@
+:root {
+  --ink: #1c1914;
+  --ink-soft: #5c564c;
+  --paper: #f4efe4;
+  --paper-raised: #faf6ee;
+  --line: #d8d0c0;
+  --rust: #b4532a;
+  --rust-deep: #8f3d1c;
+  --sage: #3d5a45;
+  --done: #8a8376;
+
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --sans: 'Avenir Next', 'Segoe UI', sans-serif;
+
+  font: 16px/1.5 var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
