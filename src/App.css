@@ -271,6 +271,16 @@
   color: #fff;
 }
 
+.credit {
+  margin: 28px 0 0;
+  text-align: center;
+}
+
+.credit a {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
 .dialog-backdrop {
   position: fixed;
   inset: 0;

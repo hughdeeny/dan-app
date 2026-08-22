@@ -241,6 +241,16 @@ function App() {
         >
           Clear {day}
         </button>
+
+        <p className="credit">
+          <a
+            href="https://screwdrivermarketing.com.au/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            This free tool was built by screwdriver marketing
+          </a>
+        </p>
       </main>
 
       {confirmingClear ? (
