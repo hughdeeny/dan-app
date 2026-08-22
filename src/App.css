@@ -293,29 +293,6 @@
   color: var(--ink-soft);
 }
 
-.dialog-input {
-  width: 100%;
-  margin: 0 0 20px;
-  padding: 10px 12px;
-  border: 1px solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 22px;
-  font-weight: 800;
-  -moz-appearance: textfield;
-}
-
-.dialog-input:focus {
-  outline: 2px solid var(--brand);
-  outline-offset: 1px;
-}
-
-.dialog-input::-webkit-outer-spin-button,
-.dialog-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
