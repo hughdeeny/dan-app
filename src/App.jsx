@@ -105,6 +105,8 @@ function App() {
   const [week, setWeek] = useState(loadWeek)
   const [day, setDay] = useState('Monday')
   const [confirmingClear, setConfirmingClear] = useState(false)
+  const [deferredPrompt, setDeferredPrompt] = useState(null)
+  const [showInstall, setShowInstall] = useState(false)
   const sheet = week[day]
 
   useEffect(() => {
@@ -119,6 +121,30 @@ function App() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
+
+  useEffect(() => {
+    function onBeforeInstallPrompt(event) {
+      event.preventDefault()
+      setDeferredPrompt(event)
+      setShowInstall(true)
+    }
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+    return () => window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+  }, [])
+
+  useEffect(() => {
+    const wantsInstall = new URLSearchParams(window.location.search).has('install')
+    if (wantsInstall) setShowInstall(true)
+  }, [])
+
+  async function handleInstallClick() {
+    if (!deferredPrompt) return
+
+    await deferredPrompt.prompt()
+    setDeferredPrompt(null)
+    setShowInstall(false)
+  }
 
   const balances = useMemo(() => weekBalances(week), [week])
   const { start, used, refilled, remaining } = balances[day]
@@ -160,6 +186,21 @@ function App() {
           <p className="date">{day}</p>
         </div>
       </header>
+
+      {showInstall && (
+        <div className="install-bar">
+          <p>Install Tank Tally on your phone for quick access.</p>
+          <button
+            id="install-button"
+            type="button"
+            className="install-button"
+            onClick={handleInstallClick}
+            disabled={!deferredPrompt}
+          >
+            {deferredPrompt ? 'Install for Android' : 'Open in Chrome to install'}
+          </button>
+        </div>
+      )}
 
       <main className="shell">
         <div className="balances">

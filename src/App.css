@@ -28,6 +28,43 @@
   margin: 0 auto;
 }
 
+.install-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(720px, 100%);
+  margin: 16px auto 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.install-bar p {
+  margin: 0;
+  flex: 1 1 220px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.install-button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 0;
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.install-button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
 .title {
   margin: 0;
   color: #fff;
